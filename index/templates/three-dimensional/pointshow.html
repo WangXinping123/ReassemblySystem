@@ -62,16 +62,63 @@
             </div>
 
         </nav>
-        <!-- /. NAV SIDE  -->
+        <!-- /hahah. NAV SIDE  -->
         <div id="page-wrapper" >
-            <label>点云展示</label>
-
-
-
-
-
-
+            <div>
+                <div class="container">
+                    <div style="margin-bottom: 10px">
+                            <a class="btn btn-success" herf="#">
+                                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                点云成品上传</a>
+                        </div>
+                        <div style="margin-bottom: 10px">
+                            <form action="/index/point_upload/" method="post" enctype="multipart/form-data">
+                                <div id="userName" class="form-group"><input type="file" name="pcl-upload"></div>
+                                <button class="button" type="submit">上传</button>
+                            </form>
+                        </div>
+                </div>
+                <div class="container">
+                    <div style="margin-bottom: 10px">
+                        <a class="btn btn-success" herf="#">
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                            成品展示</a>
+                    </div>
+                    <div class="panel panel-default">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    </div>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>员工编号</th>
+                                <th>点云文件路径</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for obj in queryset %}
+                                <tr>
+                                    <th>{{ obj.user.userid }}</th>
+                                    <th>{{ obj.pcl_img }}</th>
+                                    <th>
+                                        <a class="btn btn-primary btn-xs" href="/index/pointshow1/?pcl_id={{ obj.id }}" target="_blank">查看</a>
+                                        <a class="btn btn-danger btn-xs" href="/index/pointdelete/?pcl_id={{ obj.id }}">删除</a>
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
+
+
+
+
+
+        </div>
          <!-- /. PAGE WRAPPER  -->
         </div>
      <!-- /. WRAPPER  -->

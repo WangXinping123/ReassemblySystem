@@ -5,6 +5,7 @@ from django.db import models
 
 class User(models.Model):
     username = models.CharField("用户名", max_length=30, unique=True)
+    userid = models.CharField("员工编号", primary_key=True, max_length=32)
     password = models.CharField("密码", max_length=32)
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     updated_time = models.DateTimeField('更新时间', auto_now=True)

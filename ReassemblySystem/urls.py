@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
+from django.urls import path, re_path
+from django.views.static import serve
+from django.conf import settings
 
 urlpatterns = [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}, name='media'),
     path('admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name='user/login1.html')),
     path('user/', include('user.urls')),
     path('index/', include('index.urls'))
 ]

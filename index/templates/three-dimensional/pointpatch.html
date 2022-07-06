@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+	<!-- Bootstrap Styles-->
+    <link href="../../static/assets/css/bootstrap.css" rel="stylesheet" />
+     <!-- FontAwesome Styles-->
+    <link href="../../static/assets/css/font-awesome.css" rel="stylesheet" />
+        <!-- Custom Styles-->
+    <link href="../../static/assets/css/custom-styles.css" rel="stylesheet" />
+     <!-- Google Fonts-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <script src="../../static/assets/js/three.js"></script>
+    <script src="../../static/assets/js/OrbitControls.js"></script>
+    <script src="../../static/assets/js/PLYLoader.js"></script>
+    <script src="../../static/assets/js/OBJLoader.js"></script>
+
+</head>
+<body>
+
+    <div id="wrapper">
+        <input id="websocketUrl" type="button" class="btn btn-primary" value="显示" style="display:block;margin:0 auto" onclick="show()">
+        <input id="haha" type="hidden" value="{{ pcl_path }}" />
+     <!-- /. WRAPPER  -->
+    </div>
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+
+    <script src="../../static/assets/js/jquery-1.10.2.js"></script>
+      <!-- Bootstrap Js -->
+    <script src="../../static/assets/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Js -->
+    <script src="../../static/assets/js/jquery.metisMenu.js"></script>
+      <!-- Custom Js -->
+    <script src="../../static/assets/js/custom-scripts.js"></script>
+    <script src="../../../media/3D_fragment/dolphins.ply"></script>
+
+    <script>
+        var pcl_path = $("websocketUrl").val();
+        var renderer, scene, camera;
+        function render() {
+            requestAnimationFrame(render);//请求再次执行渲染函数render
+            renderer.render(scene,camera);//执行渲染操作
+        }
+        function show(){
+                /**
+             * 创建场景对象Scene
+             */
+            scene = new THREE.Scene();
+            /**
+             * 创建网格模型
+             */
+            /**
+             * * OBJ文件加载  只加载obj文件中的几何信息，不加载材质文件.mtl
+             // */
+            var pcl_path = $("#haha").val();
+            var loader = new THREE.PLYLoader();
+            console.log(pcl_path)
+            console.log("你好")
+            loader.load(pcl_path, function (geometry) {
+                //loader.load(pcl, function (geometry) {
+                    // //更新顶点的法向量
+                    geometry.computeVertexNormals();
+                    //创建纹理，并将模型添加到场景道中
+                    var material = new THREE.MeshStandardMaterial( { color: 0xffff00, flatShading: true } );
+                    var mesh = new THREE.Mesh( geometry, material );
+                    console.log(material);
+                    mesh.rotation.y = Math.PI;
+                    mesh.scale.set(0.05, 0.05, 0.05);
+                    scene.add(mesh);
+            });
+            /**
+             * 光源设置
+             */
+            //点光源
+            var point = new THREE.PointLight(0xffffff);
+            point.position.set(400, 200, 300); //点光源位置
+            scene.add(point); //点光源添加到场景中
+            //环境光
+            var ambient = new THREE.AmbientLight(0xff00ff);
+            scene.add(ambient);
+            // console.log(scene)
+            // console.log(scene.children)
+            // 点光源2  位置和point关于原点对称
+            var point2 = new THREE.PointLight(0xffffff);
+            point2.position.set(-400, -200, -300); //点光源位置
+            scene.add(point2); //点光源添加到场景中
+            /**
+             * 相机设置
+             */
+            var width = window.innerWidth; //窗口宽度
+            var height = window.innerHeight; //窗口高度
+            var k = width / height; //窗口宽高比
+            var s = 200; //三维场景显示范围控制系数，系数越大，显示的范围越大
+            //创建相机对象
+            camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
+            camera.position.set(200, 300, 200); //设置相机位置
+            camera.lookAt(scene.position); //设置相机方向(指向的场景对象)
+            /**
+             * 创建渲染器对象
+             */
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(width, height);//设置渲染区域尺寸
+            renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
+            //document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
+            document.getElementById('wrapper').appendChild(renderer.domElement);
+            renderer.render(scene,camera);//执行渲染操作
+            render();
+            var controls = new THREE.OrbitControls(camera,renderer.domElement);//创建控件对象
+        }
+
+    </script>
+
+</body>
+</html>
