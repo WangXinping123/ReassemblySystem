@@ -37,10 +37,10 @@
                         <a href="#"><i class="fa fa-sitemap"></i> 二维<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/index/pictureupload/">图片上传</a>
+                                <a href="/index/pictureupload/">碎片上传</a>
                             </li>
                             <li>
-                                <a href="/index/pictureshow/">图片展示</a>
+                                <a href="/index/pictureshow/">图像展示</a>
                             </li>
 
                         </ul>
@@ -62,13 +62,63 @@
             </div>
 
         </nav>
-        <!-- /. NAV SIDE  -->
+        <!-- /hahah. NAV SIDE  -->
         <div id="page-wrapper" >
-            <label>图片展示</label>
-
-
-
+            <div>
+                <div class="container">
+                    <div style="margin-bottom: 10px">
+                            <a class="btn btn-success" herf="#">
+                                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                碎片复原图像上传</a>
+                        </div>
+                        <div style="margin-bottom: 10px">
+                            <form action="/index/picture_upload/" method="post" enctype="multipart/form-data">
+                                <div id="userName" class="form-group"><input type="file" name="pcl-upload"></div>
+                                <button class="button" type="submit">上传</button>
+                            </form>
+                        </div>
+                </div>
+                <div class="container">
+                    <div style="margin-bottom: 10px">
+                        <a class="btn btn-success" herf="#">
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                            碎片复原结果展示</a>
+                    </div>
+                    <div class="panel panel-default">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    </div>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>员工编号</th>
+                                <th>碎片文件路径</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for obj in queryset %}
+                                <tr>
+                                    <th>{{ obj.user.userid }}</th>
+                                    <th>{{ obj.pcl_img }}</th>
+                                    <th>
+                                        <a class="btn btn-primary btn-xs" href="/index/pictureshow1/?pcl_id={{ obj.id }}" target="_blank">查看</a>
+                                        <a class="btn btn-danger btn-xs" href="/index/picturedelete/?pcl_id={{ obj.id }}">删除</a>
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
+
+
+
+
+
+        </div>
          <!-- /. PAGE WRAPPER  -->
         </div>
      <!-- /. WRAPPER  -->
@@ -81,7 +131,7 @@
     <script src="../../static/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
     <script src="../../static/assets/js/custom-scripts.js"></script>
-    
-   
+
+
 </body>
 </html>

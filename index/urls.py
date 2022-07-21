@@ -31,6 +31,20 @@ urlpatterns = [
     # *************************二维********************************
     # http://127.0.0.1:8000/index/pictureshow/
     path('pictureshow/', views.pictureshow_view),
-    # http://127.0.0.1:8000/index/pictureupload/
-    path('pictureupload/', views.pictureupload_view)
+
+    path('picturedelete/', views.picturedelete),
+
+    path('pictureshow1/', views.pictureshow1_view),
+
+    path('picture_upload/', views.picture_upload),
+
+
+    path('pictureupload/', views.pictureupload_view),
+
+    path('picture_patch_delete/', views.picture_patch_delete),
+
+    path('picture_patch_show1/', views.picture_patch_show1_view),
+
+    path('picture_patch_upload/', views.picture_patch_upload),
+
 ]

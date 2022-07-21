@@ -35,7 +35,7 @@
     <script src="../../static/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
     <script src="../../static/assets/js/custom-scripts.js"></script>
-    <script src="../../../media/3D_patch/dolphins.ply"></script>
+    <script src="../../../media/3D_fragment/dolphins.ply"></script>
 
     <script>
         var pcl_path = $("websocketUrl").val();
@@ -104,8 +104,7 @@
             renderer = new THREE.WebGLRenderer();
             renderer.setSize(width, height);//设置渲染区域尺寸
             renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
-
-           // document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
+            //document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
             document.getElementById('wrapper').appendChild(renderer.domElement);
             renderer.render(scene,camera);//执行渲染操作
             render();
