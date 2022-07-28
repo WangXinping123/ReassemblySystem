@@ -10,8 +10,9 @@
     <link href="../../static/assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
     <link href="../../static/assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
      <!-- Google Fonts-->
-   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <script src="../../static/assets/js/three.js"></script>
     <script src="../../static/assets/js/OrbitControls.js"></script>
     <script src="../../static/assets/js/PLYLoader.js"></script>
@@ -74,50 +75,120 @@
                             <a class="btn btn-success" herf="#">
                                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                                 点云碎片上传</a>
-                        </div>
-                        <div style="margin-bottom: 10px">
-                            <form action="/index/point_patch_upload/" method="post" enctype="multipart/form-data">
-                                <div id="userName" class="form-group"><input type="file" name="pcl-upload"></div>
-                                <button class="button" type="submit">上传</button>
-                            </form>
-                        </div>
+                    </div>
+                    <div style="margin: 20px 7px 10px" class="row">
+                        <form action="/index/point_patch_upload/" method="post" enctype="multipart/form-data">
+                            <span class="row form-group col-lg-6">
+                                <label type="text" class="form-control" for="point" id="file1">请选择点云文件</label>
+                                <input type="file" name="pcl-upload" class="form-control" id="point" style="display: none">
+                            </span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" name="point">提交</button>
+                            </span>
+                        </form>
+                    </div>
+                    <div style="margin: 10px 7px 10px" class="row">
+                        <form action="/index/point_patch_upload/" method="post" enctype="multipart/form-data">
+                            <span class="row form-group col-lg-6">
+                                <label type="text" class="form-control" for="patch" id="file2">请选择点云文件夹</label>
+                                <input type="file" multiple="" webkitdirectory="" name="pcl-upload" class="form-control" id="patch" style="display: none">
+                            </span>
+                              <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" name="lotpoint">提交</button>
+                              </span>
+                        </form>
+                    </div>
                 </div>
                 <div class="container">
 
-                        <div style="margin-bottom: 10px">
+                        <div style="margin-bottom: 20px">
                             <a class="btn btn-success" herf="#">
                                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                                 碎片展示</a>
                         </div>
                         <div class="panel panel-default">
-                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                        </div>
-                        <div>
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>员工编号</th>
-                                    <th>点云文件路径</th>
-                                    <th>操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for obj in queryset %}
+                            <div class="panel-heading">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </div>
+                            <div class="panel-body">
+                                <!--指定 date标记-->
+                                <div class="row">
+                                    <form action="/index/point_patch_upload/" method="post" onsubmit="return check_data()">
+                                        <div class='col-sm-5'>
+                                            <div class="form-group">
+                                                <label>选择开始时间：</label>
+                                                <!--指定 date标记-->
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input id="d1" name="data1" type='text' class="form-control" />
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-5'>
+                                            <div class="form-group">
+                                                <label>选择结束时间：</label>
+                                                <!--指定 date标记-->
+                                                <div class='input-group date' id='datetimepicker2'>
+                                                    <input id="d2" name="data2" type='text' class="form-control" />
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-2'>
+                                            <div class="form-group">
+                                                <label>检索</label>
+                                                <!--指定 date标记-->
+                                                <div class='input-group date'>
+                                                    <div class="row">
+                                                        <div class='col-sm-6'>
+                                                            <button class="form-control btn-primary" name="button1" type="submit">搜索</button>
+                                                        </div>
+                                                        <div class='col-sm-6'>
+                                                            <a class="btn form-control btn-primary" href="/index/point_patch_delete/">重置</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <table class="table table-bordered" id="table1">
+                                    <thead>
                                     <tr>
-                                        <th>{{ obj.user.userid }}</th>
-                                        <th>{{ obj.pcl_patch }}</th>
-                                        <th>
-                                            <a class="btn btn-primary btn-xs" href="/index/point_patch_show1/?pcl_id={{ obj.id }}" target="_blank">查看</a>
-                                            <a class="btn btn-danger btn-xs" href="/index/point_patch_delete/?pcl_id={{ obj.id }}">删除</a>
-                                        </th>
+                                        <th>员工编号</th>
+                                        <th>点云文件路径</th>
+                                        <th>上传日期</th>
+                                        <th>操作</th>
                                     </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    {% for obj in queryset %}
+                                        <tr>
+                                            <th>{{ obj.user.userid }}</th>
+                                            <th>{{ obj.pcl_patch }}</th>
+                                            <th>{{ obj.created_time }}</th>
+                                            <th>
+                                                <a class="btn btn-primary btn-xs" href="/index/point_patch_show1/?pcl_id={{ obj.id }}" target="_blank">查看</a>
+                                                <a class="btn btn-danger btn-xs" href="/index/point_patch_delete/?pcl_id={{ obj.id }}">删除</a>
+                                            </th>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                </div>
              <!-- /. PAGE WRAPPER  -->
         </div>
+    </div>
      <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
@@ -129,81 +200,43 @@
     <script src="../../static/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
     <script src="../../static/assets/js/custom-scripts.js"></script>
-
-        <script>
-
-
-            var renderer, scene, camera;
-          function render() {
-                requestAnimationFrame(render);//请求再次执行渲染函数render
-                   renderer.render(scene,camera);//执行渲染操作
-           }
-
-
-function getinfo(){
-            /**
-     * 创建场景对象Scene
-     */
-    scene = new THREE.Scene();
-    /**
-     * 创建网格模型
-     */
-    /**
- * OBJ文件加载  只加载obj文件中的几何信息，不加载材质文件.mtl
- // */
-        var loader = new THREE.PLYLoader();
-        loader.load("./dolphins.ply", function (geometry) {
-        //loader.load(pcl, function (geometry) {
-            // //更新顶点的法向量
-            geometry.computeVertexNormals();
-            //创建纹理，并将模型添加到场景道中
-            var material = new THREE.MeshStandardMaterial( { color: 0xffff00, flatShading: true } );
-            var mesh = new THREE.Mesh( geometry, material );
-            console.log(material);
-            mesh.rotation.y = Math.PI;
-            mesh.scale.set(0.05, 0.05, 0.05);
-            scene.add(mesh);
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $(function () {
+            $("#datetimepicker1").datetimepicker({
+                format: 'YYYY-MM-DD hh:mm',
+                locale: moment.locale('zh-cn')
+            });
+            $('#datetimepicker2').datetimepicker({
+                format: 'YYYY-MM-DD hh:mm',
+                locale: moment.locale('zh-cn')
+            });
+            $('#point').on('change', function (e) {
+                $("#file1").text($("#point").val())
+            })
+            $('#patch').on('change', function (e) {
+                $("#file2").text($("#patch").val())
+            })
         });
-    /**
-     * 光源设置
-     */
-    //点光源
-    var point = new THREE.PointLight(0xffffff);
-    point.position.set(400, 200, 300); //点光源位置
-    scene.add(point); //点光源添加到场景中
-    //环境光
-    var ambient = new THREE.AmbientLight(0xff00ff);
-    scene.add(ambient);
-    // console.log(scene)
-    // console.log(scene.children)
-    // 点光源2  位置和point关于原点对称
-var point2 = new THREE.PointLight(0xffffff);
-point2.position.set(-400, -200, -300); //点光源位置
-scene.add(point2); //点光源添加到场景中
-    /**
-     * 相机设置
-     */
-    var width = 300; //窗口宽度
-    var height = 300; //窗口高度
-    var k = width / height; //窗口宽高比
-    var s = 150; //三维场景显示范围控制系数，系数越大，显示的范围越大
-    //创建相机对象
-    camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
-    camera.position.set(200, 300, 200); //设置相机位置
-    camera.lookAt(scene.position); //设置相机方向(指向的场景对象)
-    /**
-     * 创建渲染器对象
-     */
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(width, height);//设置渲染区域尺寸
-    renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
-    //document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
-        document.getElementById('pos').appendChild(renderer.domElement);
-             renderer.render(scene,camera);//执行渲染操作
-    render();
-    var controls = new THREE.OrbitControls(camera,renderer.domElement);//创建控件对象
-}
-        </script>
+        function check_data(){
+                var data1 = $("#d1").val()
+                var data2 = $("#d2").val()
+                if(data2 ===''&& data1 === '')
+                {
+                    alert("起始日期或终止日期不能为空");
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        function file(){
+            alert($("#filell").val())
+            {#$("#file_label").text($("#filell").val())#}
+        }
+    </script>
 
 </body>
 </html>

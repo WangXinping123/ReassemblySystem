@@ -10,6 +10,7 @@
     <link href="../../static/assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
     <link href="../../static/assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
      <!-- Google Fonts-->
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -70,13 +71,29 @@
                             <a class="btn btn-success" herf="#">
                                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                                 点云成品上传</a>
-                        </div>
-                        <div style="margin-bottom: 10px">
-                            <form action="/index/point_upload/" method="post" enctype="multipart/form-data">
-                                <div id="userName" class="form-group"><input type="file" name="pcl-upload"></div>
-                                <button class="button" type="submit">上传</button>
-                            </form>
-                        </div>
+                    </div>
+                    <div style="margin: 20px 7px 10px" class="row">
+                        <form action="/index/point_upload/" method="post" enctype="multipart/form-data">
+                             <span class="row form-group col-lg-6">
+                                <label type="text" class="form-control" for="point" id="file1">请选择点云文件</label>
+                                <input type="file" name="pcl-upload" class="form-control" id="point" style="display: none">
+                            </span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" name="point">提交</button>
+                            </span>
+                        </form>
+                    </div>
+                    <div style="margin: 10px 7px 10px" class="row">
+                        <form action="/index/point_upload/" method="post" enctype="multipart/form-data">
+                             <span class="row form-group col-lg-6">
+                                <label type="text" class="form-control" for="patch" id="file2">请选择点云文件夹</label>
+                                <input type="file" multiple="" webkitdirectory="" name="pcl-upload" class="form-control" id="patch" style="display: none">
+                            </span>
+                              <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" name="lotpoint">提交</button>
+                              </span>
+                        </form>
+                    </div>
                 </div>
                 <div class="container">
                     <div style="margin-bottom: 10px">
@@ -85,14 +102,64 @@
                             成品展示</a>
                     </div>
                     <div class="panel panel-default">
-                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                    </div>
+                         <div class="panel-heading">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </div>
+                         <div class="panel-body">
+                            <!--指定 date标记-->
+                            <div class="row">
+                                <form action="/index/point_upload/" method="post" onsubmit="return check_data()">
+                                    <div class='col-sm-5'>
+                                        <div class="form-group">
+                                            <label>选择开始时间：</label>
+                                            <!--指定 date标记-->
+                                            <div class='input-group date' id='datetimepicker3'>
+                                                <input id="d1" name="data1" type='text' class="form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-5'>
+                                        <div class="form-group">
+                                            <label>选择结束时间：</label>
+                                            <!--指定 date标记-->
+                                            <div class='input-group date' id='datetimepicker4'>
+                                                <input id="d2" name="data2" type='text' class="form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-2'>
+                                        <div class="form-group">
+                                            <label>检索</label>
+                                            <!--指定 date标记-->
+                                            <div class='input-group date'>
+                                                <div class="row">
+                                                    <div class='col-sm-6'>
+                                                        <button class="form-control btn-primary" name="button1" type="submit">搜索</button>
+                                                    </div>
+                                                    <div class='col-sm-6'>
+                                                        <a class="btn form-control btn-primary" href="/index/pointdelete/">重置</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
                     <div>
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="table2">
                             <thead>
                             <tr>
                                 <th>员工编号</th>
                                 <th>点云文件路径</th>
+                                <th>上传日期</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -101,6 +168,7 @@
                                 <tr>
                                     <th>{{ obj.user.userid }}</th>
                                     <th>{{ obj.pcl_img }}</th>
+                                    <th>{{ obj.created_time }}</th>
                                     <th>
                                         <a class="btn btn-primary btn-xs" href="/index/pointshow1/?pcl_id={{ obj.id }}" target="_blank">查看</a>
                                         <a class="btn btn-danger btn-xs" href="/index/pointdelete/?pcl_id={{ obj.id }}">删除</a>
@@ -111,13 +179,8 @@
                         </table>
                     </div>
                 </div>
+              </div>
             </div>
-
-
-
-
-
-
         </div>
          <!-- /. PAGE WRAPPER  -->
         </div>
@@ -131,7 +194,43 @@
     <script src="../../static/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
     <script src="../../static/assets/js/custom-scripts.js"></script>
-    
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $(function () {
+            $("#datetimepicker3").datetimepicker({
+                format: 'YYYY-MM-DD hh:mm',
+                locale: moment.locale('zh-cn')
+            });
+            $('#datetimepicker4').datetimepicker({
+                format: 'YYYY-MM-DD hh:mm',
+                locale: moment.locale('zh-cn')
+            });
+            $('#point').on('change', function (e) {
+                $("#file1").text($("#point").val())
+            })
+            $('#patch').on('change', function (e) {
+                $("#file2").text($("#patch").val())
+            })
+        });
+        function check_data(){
+                var data1 = $("#d1").val()
+                var data2 = $("#d2").val()
+                if(data2 ===''&& data1 === '')
+                {
+                    alert("起始日期或终止日期不能为空");
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        function file(){
+            alert($("#filell").val())
+            {#$("#file_label").text($("#filell").val())#}
+        }
+    </script>
    
 </body>
 </html>

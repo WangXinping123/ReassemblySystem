@@ -64,8 +64,8 @@
                     // //更新顶点的法向量
                     geometry.computeVertexNormals();
                     //创建纹理，并将模型添加到场景道中
-                    var material = new THREE.MeshStandardMaterial( { color: 0xffff00, flatShading: true } );
-                    var mesh = new THREE.Mesh( geometry, material );
+                    var material = new THREE.PointsMaterial( { color: 0xffff00, flatShading: true } );
+                    var mesh = new THREE.Points( geometry, material );
                     console.log(material);
                     mesh.rotation.y = Math.PI;
                     mesh.scale.set(0.05, 0.05, 0.05);
@@ -103,7 +103,7 @@
              */
             renderer = new THREE.WebGLRenderer();
             renderer.setSize(width, height);//设置渲染区域尺寸
-            renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
+            {#renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色#}
 
            // document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
             document.getElementById('wrapper').appendChild(renderer.domElement);
