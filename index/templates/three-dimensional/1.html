@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/index/pointshow1/" method="post" onsubmit="return check_data()">
+                                    <div class='col-sm-5'>
+                                        <div class="form-group">
+                                            <label>选择开始时间：</label>
+                                            <!--指定 date标记-->
+                                            <div class='input-group date' id='datetimepicker3'>
+                                                <input id="d1" name="data1" type='text' class="form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-5'>
+                                        <div class="form-group">
+                                            <label>选择结束时间：</label>
+                                            <!--指定 date标记-->
+                                            <div class='input-group date' id='datetimepicker4'>
+                                                <input id="d2" name="data2" type='text' class="form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-2'>
+                                        <div class="form-group">
+                                            <label>检索</label>
+                                            <!--指定 date标记-->
+                                            <div class='input-group date'>
+                                                <div class="row">
+                                                    <div class='col-sm-6'>
+                                                        <button class="form-control btn-primary" name="button1" type="submit">搜索</button>
+                                                    </div>
+                                                    <div class='col-sm-6'>
+                                                        <a class="btn form-control btn-primary" href="/index/pointdelete/">重置</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+</body>
+<script>
+     $(function () {
+            $("#datetimepicker1").datetimepicker({
+                format: 'YYYY-MM-DD hh:mm',
+                locale: moment.locale('zh-cn')
+            });
+            $('#datetimepicker2').datetimepicker({
+                format: 'YYYY-MM-DD hh:mm',
+                locale: moment.locale('zh-cn')
+            });
+            $('#point').on('change', function (e) {
+                $("#file1").text($("#point").val())
+            })
+            $('#patch').on('change', function (e) {
+                $("#file2").text($("#patch").val())
+            })
+        });
+</script>
+</html>
